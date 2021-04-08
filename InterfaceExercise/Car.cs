@@ -4,20 +4,40 @@ using System.Text;
 
 namespace InterfaceExercise
 {
-    class Car : ICompany, IVehicle
+    class Car : IVehicle
     {
-        public string CompanyName { get; set; }
-        public string CompanyType { get; set; }
         public int Year { get; set; }
-        public string SeatMaterial { get; set; }
+        public string Make { get; set; }
         public string Model { get; set; }
         public bool HasAntiLock { get; set; }
+        public string SeatMaterial { get; set; }
         private bool IsHatchBack { get; set; }
+
+        public void Build()
+        {
+            Console.WriteLine("Getting user parameter input for car.");
+            Console.Write("Enter the Year: ");
+            int yearIn = int.Parse(Console.ReadLine());
+            Console.Write("Enter the make: ");
+            string makeIn = Console.ReadLine();
+            Console.Write("Enter the model: ");
+            string modelIn = Console.ReadLine();
+            Console.Write("What material are the seats made with: ");
+            string matIn = Console.ReadLine();
+            Console.Write("Does this car have antilock brakes? Enter yes or no: ");
+            string brakeIn = Console.ReadLine();
+            VehicleInit(yearIn, makeIn, modelIn, matIn, SetBrakes(brakeIn.ToLower()));
+            Console.Write("Does this car have a hatchback trunk? Enter yes or no: ");
+            string hatchIn = Console.ReadLine();
+            MakeHatchBack(SetHatch(hatchIn.ToLower()));
+
+            Console.WriteLine("Building the car.");
+
+        }
 
         public void GetInfo()
         {
-            Console.WriteLine($"This is a {Year} {CompanyName} {Model}.");
-            Console.WriteLine($"This company specializes in making {CompanyType} vehicles.");
+            Console.WriteLine($"This is a {Year} {Make} {Model}.");
             Console.WriteLine($"It has {SeatMaterial} seats.");
             Console.WriteLine(GetAntiLock());
             Console.WriteLine(GetTrunkType());
@@ -39,18 +59,26 @@ namespace InterfaceExercise
             IsHatchBack = input;
         }
 
-        public void CompanyInit(string name, string type)
-        {
-            CompanyName = name;
-            CompanyType = type;
-        }
-
-        public void VehicleInit(int year, string model, string material, bool antiLock)
+        public void VehicleInit(int year, string make, string model, string material, bool antiLock)
         {
             Year = year;
+            Make = make;
             Model = model;
             SeatMaterial = material;
             HasAntiLock = antiLock;
         }
+
+        public bool SetBrakes(string input)
+        {
+            if (input == "no") return false;
+            else return true;
+        }
+
+        public bool SetHatch(string input)
+        {
+            if (input == "yes") return true;
+            else return false;
+        }
+
     }
 }
